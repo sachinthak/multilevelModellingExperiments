@@ -1,0 +1,21 @@
+---
+title: "Experimenting with Classical vs Multilevel Modelling"
+author: "Sachintha Karunaratne"
+date: "19 April 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Linear model with dummy variables Vs Multilevel model
+
+It is quite clear that the multilevel modelling would have definite advantages when 
+second level predictors are available. But, how would it perform against a classical 
+regression with dummy variables (i.e a less extreme version of no-pooling estimate)?
+My initial guess was the two would be identical and that the multilevel modelling would not provide much value in this simple scenario. 
+
+To simulate the scenario, I chose the Radon example from Gelman and Hill's multilevel regression book. In the dataset Radon readings from different houses in multiple counties are recorded. A simple way to get the effect of average Radon level by county, is to take the sample mean by county and the associated confidence intervals. The estimate you get for each county is exactly equal to the coefficients of the dummy variables indicating county while fitting a linear regression. Thus we could consider the dummy variable approach for regression as a less extreme version of no-pooling (No pooling refers to fitting separate regressions for each county). 
+
+I was surprised to find that the dummy variable approach and the simple multilevel approach estimates differed. Multilevel estimates indicated less variation among counties. Simple linear regression tends to over fit data. To see this consider a single county which only has two data points, whereas the rest of the counties having much larger sample sizes. The simple linear regression estimate for this county's average Radon level is going to be the mean of just two data points. Whereas the multilevel model gives less weight to the sample average because of the smaller sample size and thus the weight would lean more towards the overall mean. It is clear that multilevel modelling is better at avoiding overfitting by compromising between the no-pooling estimate and the complete pooling estimate.
